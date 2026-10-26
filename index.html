@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevSuite Studio - Web Utilities & Developer Toolkit</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .adsense-placeholder {
+            background-image: radial-gradient(rgba(156, 163, 175, 0.15) 1px, transparent 0);
+            background-size: 12px 12px;
+        }
+        .dark .adsense-placeholder {
+            background-image: radial-gradient(rgba(75, 85, 99, 0.25) 1px, transparent 0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex flex-col font-sans transition-colors duration-200">
+
+    <!-- Google AdSense Master Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4321543724878495" crossorigin="anonymous"></script>
+    <meta name="google-adsense-account" content="ca-pub-4321543724878495">
+    
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('json-tool')">
+                    <div class="w-10 h-10 rounded-xl bg-brand-600 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-code"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">DevSuite</span>
+                        <span class="text-xs bg-brand-100 dark:bg-brand-900 text-brand-800 dark:text-brand-200 px-2 py-0.5 rounded-full font-medium ml-1">Studio</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden lg:flex space-x-1">
+                    <button onclick="switchTab('json-tool')" id="nav-json-tool" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-gray-700 transition">
+                        <i class="fa-solid fa-brackets-curly mr-1"></i> JSON Tool
+                    </button>
+                    <button onclick="switchTab('encoder-tool')" id="nav-encoder-tool" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-solid fa-arrow-right-arrow-left mr-1"></i> Base64 & URL
+                    </button>
+                    <button onclick="switchTab('markdown-tool')" id="nav-markdown-tool" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-brands fa-markdown mr-1"></i> Markdown
+                    </button>
+                    <button onclick="switchTab('about')" id="nav-about" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-solid fa-circle-info mr-1"></i> About
+                    </button>
+                    <button onclick="switchTab('privacy')" id="nav-privacy" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-solid fa-user-shield mr-1"></i> Privacy
+                    </button>
+                    <button onclick="switchTab('terms')" id="nav-terms" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-solid fa-file-contract mr-1"></i> Terms
+                    </button>
+                    <button onclick="switchTab('contact')" id="nav-contact" class="nav-btn px-3 py-2 rounded-lg text-xs font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+                        <i class="fa-solid fa-envelope mr-1"></i> Contact
+                    </button>
+                </nav>
+
+                <!-- Actions -->
+                <div class="flex items-center space-x-2">
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none" title="Toggle Light/Dark Theme">
+                        <i id="theme-icon" class="fa-solid fa-moon text-lg"></i>
+                    </button>
+                    <button onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-4 pt-2 pb-3 space-y-1">
+            <button onclick="switchTab('json-tool')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">JSON Formatter</button>
+            <button onclick="switchTab('encoder-tool')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Base64 & URL Encoder</button>
+            <button onclick="switchTab('markdown-tool')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Markdown Editor</button>
+            <button onclick="switchTab('about')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">About Us</button>
+            <button onclick="switchTab('privacy')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Privacy Policy</button>
+            <button onclick="switchTab('terms')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Terms of Service</button>
+            <button onclick="switchTab('contact')" class="w-full text-left px-3 py-2 rounded-md text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Contact Support</button>
+        </div>
+    </header>
+
+    <!-- TOP LEADERBOARD AD CONTAINER (UNLABELED & BLANK) -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+        <div class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-3 min-h-[90px] flex items-center justify-center adsense-placeholder">
+            <ins class="adsbygoogle"
+                 style="display:block; width:100%; text-align:center;"
+                 data-ad-client="ca-pub-4321543724878495"
+                 data-ad-slot="1234567890"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>
+                 (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </div>
+
+    <!-- MAIN APP LAYOUT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-6 flex-grow w-full">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+            <!-- MAIN CONTENT AREA (8 Cols) -->
+            <div class="lg:col-span-8 space-y-6">
+
+                <!-- TOOL 1: JSON FORMATTER & VALIDATOR -->
+                <section id="tool-json-tool" class="tab-content bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-900 dark:text-white">JSON Formatter & Validator</h1>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Prettify, minify, and validate JSON data structures instantly.</p>
+                        </div>
+                        <span class="p-3 bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 rounded-xl"><i class="fa-solid fa-code text-xl"></i></span>
+                    </div>
+
+                    <textarea id="json-input" rows="8" placeholder='Paste raw JSON string here... e.g. {"name":"DevSuite","active":true}' class="w-full p-4 font-mono text-xs border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-brand-500 focus:outline-none transition mb-4"></textarea>
+
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <button onclick="formatJSON(2)" class="px-4 py-2 bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold rounded-lg transition"><i class="fa-solid fa-align-left mr-1"></i> Format (2 Spaces)</button>
+                        <button onclick="minifyJSON()" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-xs font-semibold rounded-lg transition">Minify JSON</button>
+                        <button onclick="copyToClipboard('json-input')" class="px-3 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 text-xs font-semibold rounded-lg transition ml-auto"><i class="fa-regular fa-copy mr-1"></i> Copy</button>
+                    </div>
+
+                    <!-- Indexable Publisher Content -->
+                    <div class="border-t border-gray-200 dark:border-gray-700 pt-4 text-xs text-gray-600 dark:text-gray-400 space-y-2 leading-relaxed">
+                        <h4 class="font-bold text-gray-800 dark:text-gray-200">About JSON Formatting & Data Serialization</h4>
+                        <p>JavaScript Object Notation (JSON) is an open standard file format and data interchange format that uses human-readable text to store and transmit data objects consisting of attribute-value pairs and arrays. Utilizing browser-based validation tools prevents unexpected parsing errors in production REST APIs and web services.</p>
+                    </div>
+                </section>
+
+                <!-- TOOL 2: BASE64 & URL ENCODER/DECODER -->
+                <section id="tool-encoder-tool" class="tab-content hidden bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Base64 & URL Encoder/Decoder</h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Encode and decode text strings for secure URL handling and data transmission.</p>
+                        </div>
+                        <span class="p-3 bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 rounded-xl"><i class="fa-solid fa-arrow-right-arrow-left text-xl"></i></span>
+                    </div>
+
+                    <textarea id="encoder-input" rows="6" placeholder="Type or paste text to encode/decode..." class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-brand-500 outline-none mb-4 font-mono text-xs"></textarea>
+
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <button onclick="processEncoder('b64encode')" class="px-3 py-2 bg-brand-600 text-white text-xs font-semibold rounded-lg transition">Base64 Encode</button>
+                        <button onclick="processEncoder('b64decode')" class="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-xs font-semibold rounded-lg transition">Base64 Decode</button>
+                        <button onclick="processEncoder('urlencode')" class="px-3 py-2 bg-brand-600 text-white text-xs font-semibold rounded-lg transition">URL Encode</button>
+                        <button onclick="processEncoder('urldecode')" class="px-3 py-2 bg-gray-100 dark:bg-gray-700 text-xs font-semibold rounded-lg transition">URL Decode</button>
+                    </div>
+                </section>
+
+                <!-- TOOL 3: MARKDOWN PREVIEWER -->
+                <section id="tool-markdown-tool" class="tab-content hidden bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Markdown Editor & Previewer</h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Write formatted markdown documentation with real-time text stats.</p>
+                        </div>
+                        <span class="p-3 bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 rounded-xl"><i class="fa-brands fa-markdown text-xl"></i></span>
+                    </div>
+
+                    <textarea id="markdown-input" rows="8" placeholder="# Header 1&#10;Write your documentation here..." class="w-full p-4 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 focus:ring-2 focus:ring-brand-500 outline-none mb-4 font-mono text-xs"></textarea>
+                </section>
+
+                <!-- MID-PAGE AD CONTAINER (UNLABELED & BLANK) -->
+                <div class="w-full bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 min-h-[120px] flex items-center justify-center adsense-placeholder">
+                    <ins class="adsbygoogle"
+                         style="display:block; width:100%; text-align:center;"
+                         data-ad-client="ca-pub-4321543724878495"
+                         data-ad-slot="1122334455"
+                         data-ad-format="auto"
+                         data-full-width-responsive="true"></ins>
+                    <script>
+                         (adsbygoogle = window.adsbygoogle || []).push({});
+                    </script>
+                </div>
+
+                <!-- SECTION: ABOUT US -->
+                <section id="tool-about" class="tab-content hidden space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 md:p-8">
+                    <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">About DevSuite Studio</h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Our mission, privacy commitment, and publisher transparency.</p>
+                        </div>
+                        <span class="p-3 bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 rounded-xl"><i class="fa-solid fa-circle-info text-xl"></i></span>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Who We Are</h3>
+                        <p>DevSuite Studio is a dedicated online utility platform built to provide developers, engineers, and digital content creators with responsive, browser-based tools. Our suite includes JSON tools, Base64 & URL encoding, and documentation markdown helpers.</p>
+
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Client-Side Privacy Guarantee</h3>
+                        <p>We prioritize security above all else. All data transformations, JSON formatting, and encoding operations are executed strictly within your client browser. No code snippets or user parameters are ever transmitted or saved on remote servers.</p>
+
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Publisher & Advertising Transparency</h3>
+                        <p>To support free access to our utilities, DevSuite Studio partners with Google AdSense to serve advertisements. Third-party vendors use cookies to serve ads based on prior visits across the web. Users can manage personalized advertising preferences in Google Ad Settings.</p>
+                    </div>
+                </section>
+
+                <!-- SECTION: PRIVACY POLICY -->
+                <section id="tool-privacy" class="tab-content hidden space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 md:p-8">
+                    <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Privacy Policy</h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">How we respect user data and manage advertising cookies.</p>
+                        </div>
+                        <span class="p-3 bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 rounded-xl"><i class="fa-solid fa-user-shield text-xl"></i></span>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Log Data & Traffic Metrics</h3>
+                        <p>DevSuite Studio collects standard non-personally identifiable server logs including browser specifications, internet protocol (IP) metadata, and visit timestamps to maintain platform health and security.</p>
+
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">Google AdSense & Cookie Compliance</h3>
+                        <p>Third-party vendors, including Google, use cookies to serve ads based on prior user visits. You can opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" class="text-brand-600 underline">Google Ad Settings</a> or <a href="https://www.aboutads.info" target="_blank" class="text-brand-600 underline">aboutads.info</a>.</p>
+                    </div>
+                </section>
+
+                <!-- SECTION: TERMS OF SERVICE -->
+                <section id="tool-terms" class="tab-content hidden space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 md:p-8">
+                    <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Terms of Service</h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Rules governing web platform usage.</p>
+                        </div>
+                        <span class="p-3 bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 rounded-xl"><i class="fa-solid fa-file-contract text-xl"></i></span>
+                    </div>
+
+                    <div class="space-y-4 text-sm text-gray-600 dark:text-gray-300 leading-relaxed">
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">1. Usage Agreement</h3>
+                        <p>By accessing DevSuite Studio, you agree to comply with all applicable terms. If you disagree with any part of these terms, you should discontinue using the platform.</p>
+
+                        <h3 class="text-lg font-bold text-gray-900 dark:text-white">2. Disclaimer</h3>
+                        <p>All developer utilities are provided "as is" without express or implied warranty. DevSuite Studio assumes no liability for errors or data loss resulting from local utility execution.</p>
+                    </div>
+                </section>
+
+                <!-- SECTION: CONTACT SUPPORT -->
+                <section id="tool-contact" class="tab-content hidden space-y-6 bg-white dark:bg-gray-800 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-700 p-6 md:p-8">
+                    <div class="flex items-center justify-between border-b border-gray-200 dark:border-gray-700 pb-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Contact Support</h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Reach out to our engineering team.</p>
+                        </div>
+                        <span class="p-3 bg-brand-50 dark:bg-gray-700 text-brand-600 dark:text-brand-400 rounded-xl"><i class="fa-solid fa-envelope text-xl"></i></span>
+                    </div>
+
+                    <form onsubmit="event.preventDefault(); alert('Message submitted successfully!');" class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Your Name</label>
+                            <input type="text" required placeholder="Jane Doe" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Email Address</label>
+                            <input type="email" required placeholder="developer@example.com" class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-sm outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-500 uppercase mb-1">Message</label>
+                            <textarea rows="4" required placeholder="Enter your inquiry..." class="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-900 text-sm outline-none"></textarea>
+                        </div>
+                        <button type="submit" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold text-sm rounded-xl transition">Submit Message</button>
+                    </form>
+                </section>
+
+            </div>
+
+            <!-- SIDEBAR AREA -->
+            <aside class="lg:col-span-4 space-y-6">
+                <div class="sticky top-20 space-y-6">
+                    <!-- SIDEBAR AD CONTAINER (UNLABELED & BLANK) -->
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-4 shadow-sm min-h-[250px] flex items-center justify-center adsense-placeholder">
+                        <ins class="adsbygoogle"
+                             style="display:block; width:100%; text-align:center;"
+                             data-ad-client="ca-pub-4321543724878495"
+                             data-ad-slot="0987654321"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                             (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-brand-600 to-brand-800 text-white rounded-2xl p-6 shadow-md">
+                        <i class="fa-solid fa-shield-cat text-3xl mb-3 text-brand-200"></i>
+                        <h3 class="text-lg font-bold">100% Client-Side Execution</h3>
+                        <p class="text-xs text-brand-100 mt-2 leading-relaxed">
+                            Your code transformations, JSON formatting, and Base64 operations run locally within your browser context for privacy.
+                        </p>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- FOOTER & COMPLIANCE LINKS -->
+    <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-code text-brand-600 text-xl"></i>
+                    <span class="font-bold text-gray-900 dark:text-white">DevSuite Studio</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">© 2026. All Rights Reserved.</span>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-4 text-xs text-gray-500">
+                    <a href="#" onclick="switchTab('about')" class="hover:underline">About Us</a>
+                    <a href="#" onclick="switchTab('privacy')" class="hover:underline">Privacy Policy</a>
+                    <a href="#" onclick="switchTab('terms')" class="hover:underline">Terms of Service</a>
+                    <a href="#" onclick="switchTab('contact')" class="hover:underline">Contact Support</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.getElementById('tool-' + tabId).classList.remove('hidden');
+            
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-brand-600', 'dark:text-brand-400', 'bg-brand-50', 'dark:bg-gray-700');
+                btn.classList.add('text-gray-600', 'dark:text-gray-300');
+            });
+            const activeBtn = document.getElementById('nav-' + tabId);
+            if(activeBtn) {
+                activeBtn.classList.add('text-brand-600', 'dark:text-brand-400', 'bg-brand-50', 'dark:bg-gray-700');
+                activeBtn.classList.remove('text-gray-600', 'dark:text-gray-300');
+            }
+        }
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            const icon = document.getElementById('theme-icon');
+            if (html.classList.contains('dark')) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function formatJSON(indent) {
+            const input = document.getElementById('json-input');
+            try {
+                const parsed = JSON.parse(input.value);
+                input.value = JSON.stringify(parsed, null, indent);
+            } catch (e) {
+                alert('Invalid JSON syntax: ' + e.message);
+            }
+        }
+
+        function minifyJSON() {
+            const input = document.getElementById('json-input');
+            try {
+                const parsed = JSON.parse(input.value);
+                input.value = JSON.stringify(parsed);
+            } catch (e) {
+                alert('Invalid JSON syntax: ' + e.message);
+            }
+        }
+
+        function processEncoder(type) {
+            const input = document.getElementById('encoder-input');
+            try {
+                if (type === 'b64encode') input.value = btoa(input.value);
+                else if (type === 'b64decode') input.value = atob(input.value);
+                else if (type === 'urlencode') input.value = encodeURIComponent(input.value);
+                else if (type === 'urldecode') input.value = decodeURIComponent(input.value);
+            } catch (e) {
+                alert('Encoding processing error: ' + e.message);
+            }
+        }
+
+        function copyToClipboard(elementId) {
+            const el = document.getElementById(elementId);
+            el.select();
+            navigator.clipboard.writeText(el.value);
+        }
+    </script>
+</body>
+</html>
